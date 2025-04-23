@@ -1,0 +1,39 @@
+{
+    "redirects": [
+      {
+        "source": "/(.*)",
+        "has": [
+          {
+            "type": "header",
+            "key": "x-forwarded-proto",
+            "value": "http"
+          }
+        ],
+        "destination": "https://casinovirtual24hrs.com/:1",
+        "permanent": true
+      },
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "X-Forwarded-Host",
+            "value": "www.casinovirtual24hrs.com"
+          }
+        ],
+        "destination": "https://casinovirtual24hrs.com/:1",
+        "permanent": true
+      },
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "X-Forwarded-Host",
+            "value": "casinovirtual24hrs.vercel.app"
+          }
+        ],
+        "destination": "https://casinovirtual24hrs.com/:1",
+        "permanent": true
+      }
+    ]
+  }
+  
