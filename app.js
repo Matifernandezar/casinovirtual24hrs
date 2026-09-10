@@ -1,1 +1,53 @@
-(()=>{const b=document.querySelector('.menu-toggle'),n=document.querySelector('.main-nav');if(b&&n){b.addEventListener('click',()=>{const o=n.classList.toggle('is-open');b.setAttribute('aria-expanded',String(o))});n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{n.classList.remove('is-open');b.setAttribute('aria-expanded','false')}))}const y=document.getElementById('year');if(y)y.textContent=String(new Date().getFullYear());const g=document.getElementById('age-gate'),ok=document.getElementById('age-yes'),k='cv24_age_confirmed';if(g&&!sessionStorage.getItem(k)){g.hidden=false;document.body.classList.add('gate-open')}if(g&&ok)ok.addEventListener('click',()=>{sessionStorage.setItem(k,'1');g.hidden=true;document.body.classList.remove('gate-open')});window.dataLayer=window.dataLayer||[];document.querySelectorAll('.js-whatsapp').forEach(a=>{const m=a.dataset.message;if(m)a.href=`https://wa.me/5492975815752?text=${encodeURIComponent(m)}`;a.addEventListener('click',()=>window.dataLayer.push({event:'click_whatsapp',page_path:location.pathname,link_text:a.textContent.trim()}))})})();
+(()=>{
+  const menuButton=document.querySelector('.menu-toggle');
+  const nav=document.querySelector('.main-nav');
+  if(menuButton&&nav){
+    menuButton.addEventListener('click',()=>{
+      const open=nav.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded',String(open));
+    });
+    nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{
+      nav.classList.remove('is-open');
+      menuButton.setAttribute('aria-expanded','false');
+    }));
+  }
+
+  const year=document.getElementById('year');
+  if(year) year.textContent=String(new Date().getFullYear());
+
+  const ageKey='cv24_age_confirmed';
+  let gate=document.getElementById('age-gate');
+  if(!gate){
+    gate=document.createElement('div');
+    gate.id='age-gate';
+    gate.className='age-gate';
+    gate.hidden=true;
+    gate.innerHTML=`<div class="age-dialog" role="dialog" aria-modal="true" aria-labelledby="age-title" aria-describedby="age-copy"><p class="age-kicker">ACCESO +18</p><h2 id="age-title">¿Sos mayor de 18 años?</h2><p id="age-copy">Este sitio contiene información relacionada con juegos de azar. Apostar implica riesgo de perder dinero.</p><div class="age-actions"><button class="button button-primary" id="age-yes" type="button">Sí, soy mayor de 18</button><a class="button age-exit" href="https://www.google.com/">Salir</a></div><small>Jugá con límites de tiempo y dinero. Nunca uses fondos destinados a gastos esenciales.</small></div>`;
+    document.body.appendChild(gate);
+  }
+
+  const confirmAge=gate.querySelector('#age-yes');
+  if(!sessionStorage.getItem(ageKey)){
+    gate.hidden=false;
+    document.body.classList.add('gate-open');
+    requestAnimationFrame(()=>confirmAge?.focus());
+  }
+  if(confirmAge){
+    confirmAge.addEventListener('click',()=>{
+      sessionStorage.setItem(ageKey,'1');
+      gate.hidden=true;
+      document.body.classList.remove('gate-open');
+    });
+  }
+
+  window.dataLayer=window.dataLayer||[];
+  document.querySelectorAll('.js-whatsapp').forEach(link=>{
+    const message=link.dataset.message;
+    if(message) link.href=`https://wa.me/5492975815752?text=${encodeURIComponent(message)}`;
+    link.addEventListener('click',()=>window.dataLayer.push({
+      event:'click_whatsapp',
+      page_path:location.pathname,
+      link_text:link.textContent.trim()
+    }));
+  });
+})();
